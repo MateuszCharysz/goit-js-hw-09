@@ -24,6 +24,7 @@ fields.forEach(
     (element.style.cssText = `display: flex; flex-direction: column; align-items: center;`),
 );
 labels.forEach(element => (element.style.fontSize = '12px'));
+btnStart.setAttribute('disabled', '');
 //CALLBACK/FUNCTIONS
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -43,6 +44,14 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+const startCountdown = () => {setInterval(() =>{
+  let counter = pickedTime - new Date().getTime;
+  let conversion = convertMs(counter);
+  log(conversion)
+  daysDisplay.innerHTML = conversion.days},1000)
+ 
+}
+;
 
 //FLATPICKER
 const options = {
@@ -51,9 +60,20 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    let pickedTimeTransfer = selectedDates[0].getTime();
+    let presentTimeTransfer = new Date().getTime();
+    if (pickedTimeTransfer > presentTimeTransfer) {
+      btnStart.removeAttribute('disabled');
+      pickedTime = pickedTimeTransfer;
+    } else {
+      window.alert('Please choose a date in the future');
+    }
   },
 };
+
+let pickedTime = 0;
+
 flatpickr('#datetime-picker', options);
 
 //EVENTS
+btnStart.addEventListener('click', startCountdown);
