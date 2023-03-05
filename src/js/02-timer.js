@@ -44,15 +44,33 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-const startCountdown = () => {setInterval(() =>{
-  let counter = pickedTime - new Date().getTime;
-  let conversion = convertMs(counter);
-  log(conversion)
-  daysDisplay.innerHTML = conversion.days},1000)
- 
-}
-;
 
+const addLeadingZero = value => {
+  if (value < 10) {
+    return value.toString().padStart(2, '0');
+  } else {
+    return value;
+  }
+};
+const startCountdown = () => {
+  let timerId = setInterval(() => {
+    let counter = pickedTime - new Date().getTime();
+    if (counter == 0) clearInterval(timerId);
+    let conversion = convertMs(counter);
+    log(conversion);
+    daysDisplay.innerHTML = addLeadingZero(conversion.days);
+    hoursDisplay.innerHTML = addLeadingZero(conversion.hours);
+    minDisplay.innerHTML = addLeadingZero(conversion.minutes);
+    secDisplay.innerHTML = addLeadingZero(conversion.seconds);
+    if (Object.values(conversion) === [0, 0, 0, 0])
+      //   secDisplay.innerHTML === '00' &&
+      //   minDisplay.innerHTML === '00' &&
+      //   hoursDisplay.innerHTML === '00' &&
+      //   daysDisplay.innerHTML === '00'
+      // )
+      clearInterval(timerId);
+  }, 1000);
+};
 //FLATPICKER
 const options = {
   enableTime: true,
@@ -77,3 +95,6 @@ flatpickr('#datetime-picker', options);
 
 //EVENTS
 btnStart.addEventListener('click', startCountdown);
+
+//BUGS to polish//
+// to use padStart()
