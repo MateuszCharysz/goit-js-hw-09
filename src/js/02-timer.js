@@ -95,4 +95,4 @@ flatpickr('#datetime-picker', options);
 btnStart.addEventListener('click', startCountdown);
 
 //BUGS to polish//
-// to use padStart()
+
