@@ -52,22 +52,20 @@ const addLeadingZero = value => {
     return value;
   }
 };
+const arrCompare = (arr1, arr2) =>
+  JSON.stringify(arr1) === JSON.stringify(arr2);
+
 const startCountdown = () => {
   let timerId = setInterval(() => {
     let counter = pickedTime - new Date().getTime();
     if (counter == 0) clearInterval(timerId);
     let conversion = convertMs(counter);
-    log(conversion);
+    log(Object.values(conversion));
     daysDisplay.innerHTML = addLeadingZero(conversion.days);
     hoursDisplay.innerHTML = addLeadingZero(conversion.hours);
     minDisplay.innerHTML = addLeadingZero(conversion.minutes);
     secDisplay.innerHTML = addLeadingZero(conversion.seconds);
-    if (Object.values(conversion) === [0, 0, 0, 0])
-      //   secDisplay.innerHTML === '00' &&
-      //   minDisplay.innerHTML === '00' &&
-      //   hoursDisplay.innerHTML === '00' &&
-      //   daysDisplay.innerHTML === '00'
-      // )
+    if (arrCompare(Object.values(conversion), [0, 0, 0, 0]))
       clearInterval(timerId);
   }, 1000);
 };
@@ -84,7 +82,7 @@ const options = {
       btnStart.removeAttribute('disabled');
       pickedTime = pickedTimeTransfer;
     } else {
-      window.alert('Please choose a date in the future');
+      Notiflix.Notify.failure('Please choose a date in the future');
     }
   },
 };
