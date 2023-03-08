@@ -2,14 +2,6 @@
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.6.min.css';
 
-function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-  } else {
-    // Reject
-  }
-}
 //help
 const log = console.log;
 
@@ -22,13 +14,26 @@ const form = document.querySelector('.form');
 const {
   elements: { delay, step, amount },
 } = form;
-log(delay)
-log(step)
-log(amount)
+log(delay);
+log(step);
+log(amount);
 //CALLBACK/FUNCTIONS
-const promiseLoader = () => {
-  const iterable = [...Array(amount.value)];
-  log(iterable)
+function createPromise(position, delay) {
+  const shouldResolve = Math.random() > 0.3;
+  if (shouldResolve) {
+    let onResolve = { position: `${position}`, stepTime: `${delay}` }; // Fulfill
+  } else {
+    let onReject = { position: `${position}`, stepTime: `${delay}` }; // Reject
+  }
+}
+
+const promiseLoader = (delay, step, amount) => {
+  let iterator = [...Array(amount)];
+  iterator.forEach()
+
+  // const promise = new Promise((resolve, reject) => {
+  //   setTimeout(()=>{setInterval((createPromise()),step, delay,amount)},delay, step, amount)
+  // })
   // createPromise()
   //   .then(({ position, delay }) =>
   //     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`),
@@ -44,5 +49,6 @@ const promiseLoader = () => {
 form.addEventListener('submit', event => {
   event.preventDefault();
   // log(delay.value, step.value, amount.value) // it works
-  promiseLoader();
+  log(typeof delay.value);
+  promiseLoader(delay.value, step.value, amount.value);
 });
