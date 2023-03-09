@@ -20,30 +20,51 @@ log(amount);
 //CALLBACK/FUNCTIONS
 
 const promiseLoader = (delay, step, amount) => {
-  const createPromise = (position, timeOfLunch) => {
+  const createPromise = (callId, timeOfLunch) => {
     const shouldResolve = Math.random() > 0.3;
-    new Promise((resolve, reject) => {
+
+    return new Promise((resolve, reject) => {
       if (shouldResolve) {
-        resolve({ position: `${position}`, time: `${timeOfLunch}` }); // Fulfill
+        resolve({ position: `${callId}`, time: `${timeOfLunch}` });
+        // Fulfill
       } else {
-        reject({ position: `${position}`, time: `${timeOfLunch}` }); // Reject
+        reject({ orposition: `${callId}`, time: `${timeOfLunch}` }); // Reject
       }
-    })
-    if (amount===position) clearInterval(intervalId);
+    });
   };
-  const intervalId = setInterval(createPromise(), step);
-  setTimeout(intervalId, delay)
+  let arr = [...Array(amount)];
+  log(arr);
 
-
-
-  
-  // .then(() =>
-  //   Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`),
-  // )
-  // .catch(() =>
-  //   Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`),
-  // );
+  arr.forEach((element, index) => {
+    let timeOfLunchMath = delay + step * index;
+    let promiseId = parseInt(index) + 1;
+    setTimeout(
+      createPromise(promiseId, timeOfLunchMath)
+        .then(value =>
+          Notiflix.Notify.success(
+            `✅ Fulfilled promise ${value.position} in ${value.time}ms`,
+          ),
+        )
+        .catch(error =>
+          Notiflix.Notify.failure(
+            `❌ Rejected promise ${error.orposition} in ${error.delay}ms`,
+          ),
+        ),
+      timeOfLunchMath,
+    );
+  });
 };
+
+// const intervalId = setInterval(createPromise(), step);
+// setTimeout(intervalId, delay)
+
+// .then((resolve) =>
+//   Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`),
+// )
+// .catch((reject) =>
+//   Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`),
+// );
+
 // Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
 // Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
 
