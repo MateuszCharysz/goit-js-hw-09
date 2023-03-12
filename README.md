@@ -1,6 +1,6 @@
 # JS Homework nr 9
 
-HTML/css/parcel were ready. also fallowing functions where given:
+HTML/css/parcel were ready. also following functions where given:
 
 `getRandomHexColor`, `convertMs`, `shouldResolve`
 
